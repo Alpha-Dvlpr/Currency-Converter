@@ -7,10 +7,10 @@
 
 import UIKit
 
-class CalculationVC: UIViewController {
+class CalculationVC: BaseViewController {
 
     @IBOutlet weak var topView: UIView!
-    @IBOutlet weak var inputTextField: UITextField!
+    @IBOutlet weak var inputTextField: CustomTextField!
     @IBOutlet weak var currencyTextField: UITextField!
     @IBOutlet weak var calculateButton: UIButton!
     @IBOutlet weak var toggleButton: UIButton!
@@ -18,7 +18,7 @@ class CalculationVC: UIViewController {
     @IBOutlet weak var topViewHeightConstraint: NSLayoutConstraint?
 
     private var expanded: Bool = true
-    private let currencyPicker = CustomPicker()
+    private var currencyPicker = CustomPicker()
     private let viewModel = CalculationVM()
 
     override func viewDidLoad() {
@@ -37,6 +37,12 @@ class CalculationVC: UIViewController {
         }
     }
     
+    override func reloadViewData() {
+        super.reloadViewData()
+        
+        
+    }
+    
     private func setupTopView() {
         self.topView.layer.cornerRadius = 12
         self.topView.layer.borderWidth = 1
@@ -45,14 +51,15 @@ class CalculationVC: UIViewController {
     }
 
     private func setupTextFields() {
+        self.inputTextField.toolbar.toolbarDelegate = self
+        self.inputTextField.delegate = self
         self.inputTextField.keyboardType = .numbersAndPunctuation
         self.inputTextField.placeholder = AppText.inputPlaceholder.rawValue
         self.inputTextField.clearButtonMode = .whileEditing
-        self.inputTextField.delegate = self
         
+        self.currencyPicker.toolbar.toolbarDelegate = self
         self.currencyPicker.dataSource = self
         self.currencyPicker.delegate = self
-        self.currencyPicker.toolbarDelegate = self
         self.currencyPicker.reloadAllComponents()
         
         self.currencyTextField.inputView = self.currencyPicker
@@ -77,11 +84,13 @@ class CalculationVC: UIViewController {
         self.calculateButton.addTarget(self, action: #selector(self.calculateButtonTapped(_:)), for: .touchUpInside)
         self.viewModel.status.observeNext { (status) in
             switch status {
-            case .view: self.conversionsTableView.reloadData()
+            case .view:
+                self.hideLoadingView()
+                self.conversionsTableView.reloadData()
             case .loading(let message):
-                print("loading... \(message)")
+                self.showLoadingView(message: message)
             case .error(let message, let reload, let reloadMessage):
-                print("Error loading... \(message). Reload: \(reload) - \(reloadMessage)")
+                self.showErrorView(errorMessage: message, reload: reload, reloadMessage: reloadMessage)
             }
         }.dispose(in: bag)
     }
@@ -166,7 +175,7 @@ extension CalculationVC: UITextFieldDelegate {
     }
 }
 
-extension CalculationVC: UIPickerViewDelegate, UIPickerViewDataSource, PickerDelegate {
+extension CalculationVC: UIPickerViewDelegate, UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -182,17 +191,31 @@ extension CalculationVC: UIPickerViewDelegate, UIPickerViewDataSource, PickerDel
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.currencyTextField.text = self.viewModel.currencies[row].uppercased()
     }
-    
-    func cancelTapped() {
-        self.currencyPicker.selectRow(0, inComponent: 0, animated: false)
-        self.currencyTextField.text = self.viewModel.currencies[0].uppercased()
-        self.currencyTextField.resignFirstResponder()
+}
+
+extension CalculationVC: ToolbarDelegate {
+    func cancelTapped(_ sender: UIView?) {
+        switch sender {
+        case self.currencyPicker:
+            self.currencyPicker.selectRow(0, inComponent: 0, animated: false)
+            self.currencyTextField.text = self.viewModel.currencies[0].uppercased()
+            self.currencyTextField.resignFirstResponder()
+        case self.inputTextField:
+            self.inputTextField.text = nil
+            self.inputTextField.resignFirstResponder()
+        default: print("ToolbarDelegate.Cancel - No matching view found on this controller.")
+        }
     }
     
-    func doneTapped() {
-        let row = self.currencyPicker.selectedRow(inComponent: 0)
-        self.currencyPicker.selectRow(row, inComponent: 0, animated: false)
-        self.currencyTextField.text = self.viewModel.currencies[row].uppercased()
-        self.currencyTextField.resignFirstResponder()
+    func doneTapped(_ sender: UIView?) {
+        switch sender {
+        case self.currencyPicker:
+            let row = self.currencyPicker.selectedRow(inComponent: 0)
+            self.currencyPicker.selectRow(row, inComponent: 0, animated: false)
+            self.currencyTextField.text = self.viewModel.currencies[row].uppercased()
+            self.currencyTextField.resignFirstResponder()
+        case self.inputTextField: self.inputTextField.resignFirstResponder()
+        default: print("ToolbarDelegate.Done - No matching view found on this controller.")
+        }
     }
 }

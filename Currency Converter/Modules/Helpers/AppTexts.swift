@@ -18,6 +18,7 @@ enum AppText {
     case alertMessage
     case okButton
     case cancelButton
+    case reloadButton
     
     var rawValue: String {
         switch self {
@@ -32,9 +33,10 @@ enum AppText {
         case .inputPlaceholder: return "Introduca cantidad"
         case .calculateButton: return "Calcular"
         case .alertTitle: return "Info"
-        case .alertMessage: return "Debe introducir una cantidad para convertir"
+        case .alertMessage: return "La cantidad está vacía o la divisa no es válida"
         case .okButton: return "Aceptar"
         case .cancelButton: return "Cancelar"
+        case .reloadButton: return "Reintentar"
         }
     }
 }

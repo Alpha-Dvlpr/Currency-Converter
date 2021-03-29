@@ -31,7 +31,7 @@ class CalculationVM {
     func fetchData(initialFetch: Bool, callback: @escaping (Bool) -> Void) {
         self.status.value = .loading(initialFetch ? "Fetching needed data" : "Calculating...")
         
-        self.status.value = .view
+//        self.status.value = .view
         
         callback(true)
     }
