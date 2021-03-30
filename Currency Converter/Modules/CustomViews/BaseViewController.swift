@@ -6,33 +6,44 @@
 //
 
 import UIKit
+import Bond
 
 class BaseViewController: UIViewController {
-    private let loaderView = LoadingView()
-    private let errorView = ErrorView()
+    
+    var reloadEvent = Observable<Bool>(false)
+    
+    private let reloadButton: UIButton = {
+        let button = UIButton()
+        button.layer.backgroundColor = UIColor.systemBlue.cgColor
+        button.layer.cornerRadius = 8
+        button.setTitle(AppText.reloadButton.rawValue, for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     func showLoadingView(message: String) {
-        self.loaderView.setupMessage(message: message)
-        self.loaderView.modalPresentationStyle = .overFullScreen
-        self.loaderView.modalTransitionStyle = .crossDissolve
-        self.present(self.loaderView, animated: true, completion: nil)
+        self.view.startAnimating(message: message)
     }
     
     func hideLoadingView() {
-        self.loaderView.dismiss(animated: true, completion: nil)
+        self.view.stopAnimating()
     }
     
-    func showErrorView(errorMessage: String, reload: Bool, reloadMessage: String?) {
-        self.errorView.modalPresentationStyle = .overFullScreen
-        self.errorView.modalTransitionStyle = .crossDissolve
-        self.present(self.errorView, animated: true, completion: nil)
+    func showErrorView(errorMessage: String) {
+        self.reloadEvent.value = false
+        self.view.stopAnimating()
+        
+        self.reloadButton.addTarget(self, action: #selector(self.reloadButtonTapped(_:)), for: .touchUpInside)
+        
+        self.view.showErrorView(errorMesage: errorMessage, button: self.reloadButton)
     }
     
-    func reloadViewData() {
-        self.errorView.dismiss(animated: true, completion: nil)
+    @objc private func reloadButtonTapped(_ sender: UIButton) {
+        self.view.hideErrorView()
+        self.reloadEvent.value = true
     }
 }

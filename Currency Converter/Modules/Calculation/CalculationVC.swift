@@ -31,16 +31,7 @@ class CalculationVC: BaseViewController {
         self.updateTopViewHeightAndButton()
         self.setupEvents()
         
-        self.viewModel.fetchData(initialFetch: true) { (success) in
-            self.conversionsTableView.reloadData()
-            self.currencyTextField.text = self.viewModel.currencies[0].uppercased()
-        }
-    }
-    
-    override func reloadViewData() {
-        super.reloadViewData()
-        
-        
+        self.fetchData()
     }
     
     private func setupTopView() {
@@ -89,12 +80,25 @@ class CalculationVC: BaseViewController {
                 self.conversionsTableView.reloadData()
             case .loading(let message):
                 self.showLoadingView(message: message)
-            case .error(let message, let reload, let reloadMessage):
-                self.showErrorView(errorMessage: message, reload: reload, reloadMessage: reloadMessage)
+            case .error(let message):
+                self.showErrorView(errorMessage: message)
+            }
+        }.dispose(in: bag)
+        
+        self.reloadEvent.observeNext { (reload) in
+            if reload {
+                self.calculateButtonTapped(self.calculateButton)
             }
         }.dispose(in: bag)
     }
 
+    private func fetchData(for currencyCode: String = "") {
+        self.viewModel.fetchData(for: currencyCode) { (success) in
+            self.conversionsTableView.reloadData()
+            self.currencyTextField.text = self.viewModel.currencies[0].uppercased()
+        }
+    }
+    
     private func updateTopViewHeightAndButton() {
         self.topViewHeightConstraint?.constant = self.expanded ? 100 : 0
         self.topView.isHidden = !expanded
@@ -132,10 +136,7 @@ class CalculationVC: BaseViewController {
     
     @objc private func calculateButtonTapped(_ sender: UIButton) {
         if self.checkInputs() {
-            self.viewModel.fetchData(initialFetch: false) { (success) in
-                self.expanded.toggle()
-                self.updateTopViewHeightAndButton()
-            }
+            self.fetchData(for: self.currencyTextField.text ?? "")
         } else {
             self.showAlert()
         }
@@ -203,7 +204,8 @@ extension CalculationVC: ToolbarDelegate {
         case self.inputTextField:
             self.inputTextField.text = nil
             self.inputTextField.resignFirstResponder()
-        default: print("ToolbarDelegate.Cancel - No matching view found on this controller.")
+        default:
+            print("ToolbarDelegate.Cancel - No matching view found on this controller.")
         }
     }
     
@@ -214,8 +216,10 @@ extension CalculationVC: ToolbarDelegate {
             self.currencyPicker.selectRow(row, inComponent: 0, animated: false)
             self.currencyTextField.text = self.viewModel.currencies[row].uppercased()
             self.currencyTextField.resignFirstResponder()
-        case self.inputTextField: self.inputTextField.resignFirstResponder()
-        default: print("ToolbarDelegate.Done - No matching view found on this controller.")
+        case self.inputTextField:
+            self.inputTextField.resignFirstResponder()
+        default:
+            print("ToolbarDelegate.Done - No matching view found on this controller.")
         }
     }
 }

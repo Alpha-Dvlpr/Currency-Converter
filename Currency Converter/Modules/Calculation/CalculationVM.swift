@@ -10,7 +10,7 @@ import Bond
 enum Status {
     case view
     case loading(String)
-    case error(String, Bool, String)
+    case error(String)
 }
 
 class CalculationVM {
@@ -24,15 +24,10 @@ class CalculationVM {
     }
     var conversions: [Double] = []
     
-    init() {
-        // TODO: Get existing currencies codes. If not fetch
-    }
-    
-    func fetchData(initialFetch: Bool, callback: @escaping (Bool) -> Void) {
-        self.status.value = .loading(initialFetch ? "Fetching needed data" : "Calculating...")
+    func fetchData(for currencyCode: String, callback: @escaping (Bool) -> Void) {
+        self.status.value = .loading(currencyCode == "" ? "Fetching needed data" : "Calculating...")
         
 //        self.status.value = .view
-        
         callback(true)
     }
     
