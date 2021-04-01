@@ -19,7 +19,7 @@ class CalculationVC: BaseViewController {
 
     private var expanded: Bool = true
     private var currencyPicker = CustomPicker()
-    private let viewModel = CalculationVM()
+    private var viewModel = CalculationVM()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,8 +30,6 @@ class CalculationVC: BaseViewController {
         self.setupToggleButton()
         self.updateTopViewHeightAndButton()
         self.setupEvents()
-        
-        self.fetchData()
     }
     
     private func setupTopView() {
@@ -75,9 +73,15 @@ class CalculationVC: BaseViewController {
         self.calculateButton.addTarget(self, action: #selector(self.calculateButtonTapped(_:)), for: .touchUpInside)
         self.viewModel.status.observeNext { (status) in
             switch status {
-            case .view:
+            case .view(let reload):
                 self.hideLoadingView()
-                self.conversionsTableView.reloadData()
+    
+                if reload {
+                    self.conversionsTableView.reloadData()
+                } else {
+                    self.currencyTextField.text = self.viewModel.currencies[0].code.uppercased()
+                    self.currencyPicker.reloadAllComponents()
+                }
             case .loading(let message):
                 self.showLoadingView(message: message)
             case .error(let message):
@@ -90,13 +94,6 @@ class CalculationVC: BaseViewController {
                 self.calculateButtonTapped(self.calculateButton)
             }
         }.dispose(in: bag)
-    }
-
-    private func fetchData(for currencyCode: String = "") {
-        self.viewModel.fetchData(for: currencyCode) { (success) in
-            self.conversionsTableView.reloadData()
-            self.currencyTextField.text = self.viewModel.currencies[0].uppercased()
-        }
     }
     
     private func updateTopViewHeightAndButton() {
@@ -136,7 +133,7 @@ class CalculationVC: BaseViewController {
     
     @objc private func calculateButtonTapped(_ sender: UIButton) {
         if self.checkInputs() {
-            self.fetchData(for: self.currencyTextField.text ?? "")
+            self.viewModel.fetchData(for: self.inputTextField.text!, reload: true)
         } else {
             self.showAlert()
         }
@@ -145,11 +142,15 @@ class CalculationVC: BaseViewController {
 
 extension CalculationVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.viewModel.conversions.count
+        return self.viewModel.currencies.count - 1
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "tableCell")
+        let currentCurrency = self.viewModel.currencies[indexPath.row + 1]
+        cell.textLabel?.text = currentCurrency.code
+        cell.detailTextLabel?.text = String(currentCurrency.value * (Double(self.inputTextField.text ?? "1") ?? 1))
+        return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -186,11 +187,11 @@ extension CalculationVC: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return self.viewModel.currencies[row].uppercased()
+        return self.viewModel.currencies[row].code.uppercased()
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        self.currencyTextField.text = self.viewModel.currencies[row].uppercased()
+        self.currencyTextField.text = self.viewModel.currencies[row].code.uppercased()
     }
 }
 
@@ -199,7 +200,7 @@ extension CalculationVC: ToolbarDelegate {
         switch sender {
         case self.currencyPicker:
             self.currencyPicker.selectRow(0, inComponent: 0, animated: false)
-            self.currencyTextField.text = self.viewModel.currencies[0].uppercased()
+            self.currencyTextField.text = self.viewModel.currencies[0].code.uppercased()
             self.currencyTextField.resignFirstResponder()
         case self.inputTextField:
             self.inputTextField.text = nil
@@ -214,7 +215,7 @@ extension CalculationVC: ToolbarDelegate {
         case self.currencyPicker:
             let row = self.currencyPicker.selectedRow(inComponent: 0)
             self.currencyPicker.selectRow(row, inComponent: 0, animated: false)
-            self.currencyTextField.text = self.viewModel.currencies[row].uppercased()
+            self.currencyTextField.text = self.viewModel.currencies[row].code.uppercased()
             self.currencyTextField.resignFirstResponder()
         case self.inputTextField:
             self.inputTextField.resignFirstResponder()

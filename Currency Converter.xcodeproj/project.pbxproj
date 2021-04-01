@@ -21,6 +21,8 @@
 		93AA1D8C260F9CC600B18BAD /* InfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93AA1D8B260F9CC600B18BAD /* InfoVC.swift */; };
 		93AA1D8F260FA04500B18BAD /* AppTexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93AA1D8E260FA04500B18BAD /* AppTexts.swift */; };
 		93AA1D92260FA6EB00B18BAD /* CalculationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93AA1D91260FA6EB00B18BAD /* CalculationVC.swift */; };
+		93B0F0122616484C00C8710C /* AlamofireDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B0F0112616484C00C8710C /* AlamofireDataStore.swift */; };
+		93B0F0152616499B00C8710C /* Endpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B0F0142616499B00C8710C /* Endpoints.swift */; };
 		93D054B426131BA600295F51 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D054B326131BA600295F51 /* ViewExtension.swift */; };
 		C2F25030522F9F2EDDDF5EFB /* Pods_Currency_Converter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53A3D56D7A071CE3B7438149 /* Pods_Currency_Converter.framework */; };
 /* End PBXBuildFile section */
@@ -45,6 +47,8 @@
 		93AA1D8B260F9CC600B18BAD /* InfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoVC.swift; sourceTree = "<group>"; };
 		93AA1D8E260FA04500B18BAD /* AppTexts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTexts.swift; sourceTree = "<group>"; };
 		93AA1D91260FA6EB00B18BAD /* CalculationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculationVC.swift; sourceTree = "<group>"; };
+		93B0F0112616484C00C8710C /* AlamofireDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireDataStore.swift; sourceTree = "<group>"; };
+		93B0F0142616499B00C8710C /* Endpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoints.swift; sourceTree = "<group>"; };
 		93D054B326131BA600295F51 /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -160,6 +164,8 @@
 		93AA1D86260F9A9500B18BAD /* DataStores */ = {
 			isa = PBXGroup;
 			children = (
+				93B0F0112616484C00C8710C /* AlamofireDataStore.swift */,
+				93B0F0142616499B00C8710C /* Endpoints.swift */,
 			);
 			path = DataStores;
 			sourceTree = "<group>";
@@ -317,6 +323,7 @@
 			files = (
 				934F8FC9260FCDF20054FD0A /* CalculationVM.swift in Sources */,
 				930FADEB2612813800A0E3DC /* CustomToolbar.swift in Sources */,
+				93B0F0122616484C00C8710C /* AlamofireDataStore.swift in Sources */,
 				93AA1D8F260FA04500B18BAD /* AppTexts.swift in Sources */,
 				934F8FC6260FC90F0054FD0A /* CustomPicker.swift in Sources */,
 				930FADFB2612847000A0E3DC /* BaseViewController.swift in Sources */,
@@ -324,6 +331,7 @@
 				93AA1D8C260F9CC600B18BAD /* InfoVC.swift in Sources */,
 				93AA1D92260FA6EB00B18BAD /* CalculationVC.swift in Sources */,
 				938C5836260F90EE005DB34A /* AppDelegate.swift in Sources */,
+				93B0F0152616499B00C8710C /* Endpoints.swift in Sources */,
 				93AA1D89260F9AC400B18BAD /* ViewExtensions.swift in Sources */,
 				938C5838260F90EE005DB34A /* SceneDelegate.swift in Sources */,
 				93D054B426131BA600295F51 /* ViewExtension.swift in Sources */,
