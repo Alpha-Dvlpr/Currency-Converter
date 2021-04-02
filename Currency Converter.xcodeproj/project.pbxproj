@@ -24,6 +24,9 @@
 		93B0F0122616484C00C8710C /* AlamofireDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B0F0112616484C00C8710C /* AlamofireDataStore.swift */; };
 		93B0F0152616499B00C8710C /* Endpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B0F0142616499B00C8710C /* Endpoints.swift */; };
 		93D054B426131BA600295F51 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D054B326131BA600295F51 /* ViewExtension.swift */; };
+		93FC6C9E2617887F005E39A9 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FC6C9D2617887F005E39A9 /* Currency.swift */; };
+		93FC6CA2261788CE005E39A9 /* ConversionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93FC6CA1261788CE005E39A9 /* ConversionCell.xib */; };
+		93FC6CAA2617950E005E39A9 /* ConversionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FC6CA92617950E005E39A9 /* ConversionCell.swift */; };
 		C2F25030522F9F2EDDDF5EFB /* Pods_Currency_Converter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53A3D56D7A071CE3B7438149 /* Pods_Currency_Converter.framework */; };
 /* End PBXBuildFile section */
 
@@ -50,6 +53,9 @@
 		93B0F0112616484C00C8710C /* AlamofireDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireDataStore.swift; sourceTree = "<group>"; };
 		93B0F0142616499B00C8710C /* Endpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoints.swift; sourceTree = "<group>"; };
 		93D054B326131BA600295F51 /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
+		93FC6C9D2617887F005E39A9 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
+		93FC6CA1261788CE005E39A9 /* ConversionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConversionCell.xib; sourceTree = "<group>"; };
+		93FC6CA92617950E005E39A9 /* ConversionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +121,7 @@
 		93AA1D7F260F99B400B18BAD /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
+				93FC6CA1261788CE005E39A9 /* ConversionCell.xib */,
 				938C583B260F90EE005DB34A /* Main.storyboard */,
 				938C5840260F90F1005DB34A /* LaunchScreen.storyboard */,
 			);
@@ -129,6 +136,7 @@
 				930FADE92612811400A0E3DC /* CustomViews */,
 				93AA1D87260F9AA300B18BAD /* Helpers */,
 				93AA1D82260F99DE00B18BAD /* Info */,
+				93FC6C9C26178861005E39A9 /* Models */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -138,6 +146,7 @@
 			children = (
 				93AA1D91260FA6EB00B18BAD /* CalculationVC.swift */,
 				934F8FC8260FCDF20054FD0A /* CalculationVM.swift */,
+				93FC6CA92617950E005E39A9 /* ConversionCell.swift */,
 			);
 			path = Calculation;
 			sourceTree = "<group>";
@@ -177,6 +186,14 @@
 				93AA1D8E260FA04500B18BAD /* AppTexts.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		93FC6C9C26178861005E39A9 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				93FC6C9D2617887F005E39A9 /* Currency.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		BAF9706C8C05AA6F22139F84 /* Pods */ = {
@@ -249,6 +266,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				938C5842260F90F1005DB34A /* LaunchScreen.storyboard in Resources */,
+				93FC6CA2261788CE005E39A9 /* ConversionCell.xib in Resources */,
 				938C583F260F90F1005DB34A /* Assets.xcassets in Resources */,
 				938C583D260F90EE005DB34A /* Main.storyboard in Resources */,
 			);
@@ -326,7 +344,9 @@
 				93B0F0122616484C00C8710C /* AlamofireDataStore.swift in Sources */,
 				93AA1D8F260FA04500B18BAD /* AppTexts.swift in Sources */,
 				934F8FC6260FC90F0054FD0A /* CustomPicker.swift in Sources */,
+				93FC6CAA2617950E005E39A9 /* ConversionCell.swift in Sources */,
 				930FADFB2612847000A0E3DC /* BaseViewController.swift in Sources */,
+				93FC6C9E2617887F005E39A9 /* Currency.swift in Sources */,
 				930FADEE2612815F00A0E3DC /* CustomTextField.swift in Sources */,
 				93AA1D8C260F9CC600B18BAD /* InfoVC.swift in Sources */,
 				93AA1D92260FA6EB00B18BAD /* CalculationVC.swift in Sources */,

@@ -22,31 +22,10 @@ extension UIView {
         
         self.isUserInteractionEnabled = false
         
-        let container = UIStackView()
-        container.axis = .vertical
-        container.bounds = CGRect.init(x: 0, y: 0, width: 240, height: 240)
-        container.spacing = 16
-        container.alignment = .center
-        container.distribution = .equalCentering
-        
         let indicator = UIActivityIndicatorView()
         indicator.style = .large
         indicator.color = color
-        indicator.center = CGPoint(x: container.frame.width / 2, y: container.frame.height / 2)
         indicator.startAnimating()
-        
-        container.addArrangedSubview(indicator)
-        
-        if message != nil {
-            let label = UILabel()
-            label.textAlignment = .center
-            label.font = .boldSystemFont(ofSize: 14)
-            label.numberOfLines = 2
-            label.text = message
-            label.textColor = .black
-            
-            container.addArrangedSubview(label)
-        }
         
         let backgroundView = UIView()
         backgroundView.bounds = CGRect(x: 0, y: 0, width: 250, height: 125)
@@ -55,10 +34,27 @@ extension UIView {
         backgroundView.layer.cornerRadius = 12
         backgroundView.tag = 1000000
         
-        backgroundView.addSubview(container)
-        container
-            .centerHorizontallyWithParent(safeArea: true)
-            .centerVerticallyWithParent(safeArea: true)
+        backgroundView.addSubview(indicator)
+        indicator.centerHorizontallyWithParent(safeArea: true)
+        
+        if message != nil {
+            indicator.alignParentTop(constant: 16, safeArea: true)
+            
+            let label = UILabel()
+            label.textAlignment = .center
+            label.font = .boldSystemFont(ofSize: 14)
+            label.numberOfLines = 3
+            label.text = message
+            label.textColor = .black
+            
+            backgroundView.addSubview(label)
+            label
+                .matchParentHorizontally(constant: 16, safeArea: true)
+                .alignParentBottom(constant: 16, safeArea: true)
+                .alignBelow(to: indicator, constant: 16)
+        } else {
+            indicator.centerVerticallyWithParent(safeArea: true)
+        }
         
         self.addSubview(backgroundView)
     }

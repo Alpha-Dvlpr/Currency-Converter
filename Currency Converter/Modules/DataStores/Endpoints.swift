@@ -8,6 +8,5 @@
 import Foundation
 
 enum Endpoints: String {
-    case standardConversions = "https://api.exchangerate.host/latest"
-    case givenCurrency = "https://api.exchangerate.host/latest?base="
+    case getCurrencies = "https://api.exchangerate.host/latest"
 }

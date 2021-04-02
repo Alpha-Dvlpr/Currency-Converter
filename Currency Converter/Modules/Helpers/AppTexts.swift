@@ -19,6 +19,9 @@ enum AppText {
     case okButton
     case cancelButton
     case reloadButton
+    case fetchingCurrencies
+    case fetchinConversions
+    case errorFetching
     
     var rawValue: String {
         switch self {
@@ -28,7 +31,7 @@ enum AppText {
             } else if let bundleName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String {
                 return bundleName
             } else { return "App Name" }
-        case .appAuthor: return "Aarón Granado Amores. 27/03/2021."
+        case .appAuthor: return "Aarón Granado Amores."
         case .appDescription: return "Conversor de divisas realizado como prueba técnica para el proceso de selección de Indra."
         case .inputPlaceholder: return "Introduca cantidad"
         case .calculateButton: return "Calcular"
@@ -37,6 +40,9 @@ enum AppText {
         case .okButton: return "Aceptar"
         case .cancelButton: return "Cancelar"
         case .reloadButton: return "Reintentar"
+        case .fetchingCurrencies: return "Obteniendo divisas disponibles"
+        case .fetchinConversions: return "Obteniendo tasas de cambio para %@"
+        case .errorFetching: return "Error al obtener las divisas o las tasas de cambio"
         }
     }
 }

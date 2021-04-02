@@ -20,6 +20,7 @@ class CalculationVC: BaseViewController {
     private var expanded: Bool = true
     private var currencyPicker = CustomPicker()
     private var viewModel = CalculationVM()
+    private var restorationId = "ConversionCell"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,6 +55,7 @@ class CalculationVC: BaseViewController {
         self.currencyTextField.inputView = self.currencyPicker
         self.currencyTextField.inputAccessoryView = self.currencyPicker.toolbar
         self.currencyTextField.textAlignment = .center
+        self.currencyTextField.tintColor = .clear
     }
     
     private func setupTableView() {
@@ -61,6 +63,10 @@ class CalculationVC: BaseViewController {
         self.conversionsTableView.dataSource = self
         self.conversionsTableView.tableFooterView = UIView()
         self.conversionsTableView.separatorStyle = .none
+        self.conversionsTableView.register(
+            UINib(nibName: self.restorationId, bundle: nil),
+            forCellReuseIdentifier: self.restorationId
+        )
     }
 
     private func setupToggleButton() {
@@ -103,14 +109,17 @@ class CalculationVC: BaseViewController {
         self.toggleButton.setTitle(self.expanded ? "-" : "+", for: .normal)
     }
     
-    private func checkInputs() -> Bool {
-        guard let inputText = self.inputTextField.text else { return false }
-        guard let currency = self.currencyTextField.text else { return false }
+    private func checkInputs() -> [String: Double]? {
+        guard let inputText = self.inputTextField.text else { return nil }
+        guard let currency = self.currencyTextField.text, !currency.isEmpty, currency != "-"
+        else { return nil }
         
         let replacedString = inputText.replacingOccurrences(of: ",", with: ".")
-        guard let value = Double(replacedString) else { return false }
         
-        return value != 0.00 && !currency.isEmpty && currency != "-"
+        guard let value = Double(replacedString), value != 0.00
+        else { return nil }
+        
+        return [currency: value]
     }
     
     private func showAlert() {
@@ -132,8 +141,8 @@ class CalculationVC: BaseViewController {
     }
     
     @objc private func calculateButtonTapped(_ sender: UIButton) {
-        if self.checkInputs() {
-            self.viewModel.fetchData(for: self.inputTextField.text!, reload: true)
+        if let value = self.checkInputs(), let first = value.first {
+            self.viewModel.fetchData(for: first.key, and: first.value, reload: true)
         } else {
             self.showAlert()
         }
@@ -142,15 +151,28 @@ class CalculationVC: BaseViewController {
 
 extension CalculationVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.viewModel.currencies.count - 1
+        return self.viewModel.conversions.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "tableCell")
-        let currentCurrency = self.viewModel.currencies[indexPath.row + 1]
-        cell.textLabel?.text = currentCurrency.code
-        cell.detailTextLabel?.text = String(currentCurrency.value * (Double(self.inputTextField.text ?? "1") ?? 1))
-        return cell
+        let currentConversion = self.viewModel.conversions[indexPath.row]
+        
+        if let cell = tableView.dequeueReusableCell(
+            withIdentifier: self.restorationId,
+            for: indexPath
+        ) as? ConversionCell {
+            cell.configureCell(with: currentConversion)
+            return cell
+        } else {
+            let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "ReuseCell")
+            cell.textLabel?.text = currentConversion.code
+            cell.detailTextLabel?.text = String.init(format: "%.4f", currentConversion.value)
+            return cell
+        }
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
