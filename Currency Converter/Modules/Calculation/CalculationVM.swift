@@ -32,12 +32,10 @@ class CalculationVM {
     }
     
     func getFromRealm() {
-       let count = 0
-        
-        if count == 0 {
-            self.fetchData()
+        if let currencies = RealmCurrenciesDataStore.shared.getCurrencies(), currencies.rates.count != 0 {
+            self.finishLoading(currencies: currencies)
         } else {
-//            self.finishLoading(currencies: <#T##Currencies#>)
+            self.fetchData()
         }
     }
     
@@ -95,5 +93,7 @@ class CalculationVM {
         self._currencies.append(Currency(code: "-", value: 0))
         self._currencies.append(contentsOf: currencies.rates)
         self.base = currencies.base
+        
+        RealmCurrenciesDataStore.shared.addCurrencies(appModel: currencies)
     }
 }

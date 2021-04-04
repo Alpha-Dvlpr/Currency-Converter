@@ -5,11 +5,17 @@ PODS:
     - ReactiveKit (~> 3.14)
   - Differ (1.4.5)
   - ReactiveKit (3.17.4)
+  - Realm (5.4.0):
+    - Realm/Headers (= 5.4.0)
+  - Realm/Headers (5.4.0)
+  - RealmSwift (5.4.0):
+    - Realm (= 5.4.0)
   - SwiftLint (0.43.1)
 
 DEPENDENCIES:
   - Alamofire (~> 5.2)
   - Bond
+  - RealmSwift
   - SwiftLint
 
 SPEC REPOS:
@@ -18,6 +24,8 @@ SPEC REPOS:
     - Bond
     - Differ
     - ReactiveKit
+    - Realm
+    - RealmSwift
     - SwiftLint
 
 SPEC CHECKSUMS:
@@ -25,8 +33,10 @@ SPEC CHECKSUMS:
   Bond: 87075c7f20f37ea3e73dc7057fce839787bf46eb
   Differ: 3b6bd78e2b20cc795d9a86f7641d087524e4273e
   ReactiveKit: f9f9e079efa39312c597bf1508ef4810d111ce76
+  Realm: 8949757d76e2451a53d727954c607e49c2542b77
+  RealmSwift: 0b7d7121e842724188123c6086831ae6d2952050
   SwiftLint: 99f82d07b837b942dd563c668de129a03fc3fb52
 
-PODFILE CHECKSUM: 7acf09facb016114e722793dc25fba1061fa0890
+PODFILE CHECKSUM: 533e75befc59363cf18803a8a72658fd89b1392a
 
 COCOAPODS: 1.10.1

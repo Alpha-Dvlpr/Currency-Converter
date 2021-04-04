@@ -23,12 +23,27 @@
 		93AA1D92260FA6EB00B18BAD /* CalculationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93AA1D91260FA6EB00B18BAD /* CalculationVC.swift */; };
 		93B0F0122616484C00C8710C /* AlamofireDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B0F0112616484C00C8710C /* AlamofireDataStore.swift */; };
 		93B0F0152616499B00C8710C /* Endpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B0F0142616499B00C8710C /* Endpoints.swift */; };
+		93C88263261A7D81009A80B2 /* RealmCurrenciesDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C88262261A7D81009A80B2 /* RealmCurrenciesDataStore.swift */; };
+		93C88265261A7F01009A80B2 /* BaseRealmDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C88264261A7F01009A80B2 /* BaseRealmDataStore.swift */; };
 		93D054B426131BA600295F51 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D054B326131BA600295F51 /* ViewExtension.swift */; };
 		93FC6C9E2617887F005E39A9 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FC6C9D2617887F005E39A9 /* Currency.swift */; };
 		93FC6CA2261788CE005E39A9 /* ConversionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93FC6CA1261788CE005E39A9 /* ConversionCell.xib */; };
 		93FC6CAA2617950E005E39A9 /* ConversionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FC6CA92617950E005E39A9 /* ConversionCell.swift */; };
 		C2F25030522F9F2EDDDF5EFB /* Pods_Currency_Converter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53A3D56D7A071CE3B7438149 /* Pods_Currency_Converter.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		93C88247261A743F009A80B2 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		065EB03B9936575B132E5FE8 /* Pods-Currency Converter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Currency Converter.release.xcconfig"; path = "Target Support Files/Pods-Currency Converter/Pods-Currency Converter.release.xcconfig"; sourceTree = "<group>"; };
@@ -52,6 +67,8 @@
 		93AA1D91260FA6EB00B18BAD /* CalculationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculationVC.swift; sourceTree = "<group>"; };
 		93B0F0112616484C00C8710C /* AlamofireDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireDataStore.swift; sourceTree = "<group>"; };
 		93B0F0142616499B00C8710C /* Endpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoints.swift; sourceTree = "<group>"; };
+		93C88262261A7D81009A80B2 /* RealmCurrenciesDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmCurrenciesDataStore.swift; sourceTree = "<group>"; };
+		93C88264261A7F01009A80B2 /* BaseRealmDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseRealmDataStore.swift; sourceTree = "<group>"; };
 		93D054B326131BA600295F51 /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		93FC6C9D2617887F005E39A9 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		93FC6CA1261788CE005E39A9 /* ConversionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConversionCell.xib; sourceTree = "<group>"; };
@@ -175,6 +192,8 @@
 			children = (
 				93B0F0112616484C00C8710C /* AlamofireDataStore.swift */,
 				93B0F0142616499B00C8710C /* Endpoints.swift */,
+				93C88262261A7D81009A80B2 /* RealmCurrenciesDataStore.swift */,
+				93C88264261A7F01009A80B2 /* BaseRealmDataStore.swift */,
 			);
 			path = DataStores;
 			sourceTree = "<group>";
@@ -218,6 +237,7 @@
 				938C5830260F90EE005DB34A /* Resources */,
 				83B5C1D255FA12B5DF94264D /* [CP] Embed Pods Frameworks */,
 				93CA74E6260FB3C8004A1574 /* SwiftLint */,
+				93C88247261A743F009A80B2 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -353,7 +373,9 @@
 				938C5836260F90EE005DB34A /* AppDelegate.swift in Sources */,
 				93B0F0152616499B00C8710C /* Endpoints.swift in Sources */,
 				93AA1D89260F9AC400B18BAD /* ViewExtensions.swift in Sources */,
+				93C88263261A7D81009A80B2 /* RealmCurrenciesDataStore.swift in Sources */,
 				938C5838260F90EE005DB34A /* SceneDelegate.swift in Sources */,
+				93C88265261A7F01009A80B2 /* BaseRealmDataStore.swift in Sources */,
 				93D054B426131BA600295F51 /* ViewExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
