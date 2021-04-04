@@ -23,7 +23,8 @@ class CalculationVM {
             : self._currencies.sorted(by: { $0.code < $1.code })
     }
     var base: String = "-"
-    var conversions: [Currency] = []
+    private var _conversions: [Currency] = []
+    var filteredConversions: [Currency] = []
     
     init() {
         self.status.value = .loading(AppText.fetchingCurrencies.rawValue)
@@ -44,7 +45,7 @@ class CalculationVM {
         self.status.value = .loading(
             currencyCode == ""
                 ? AppText.fetchingCurrencies.rawValue
-                : String.init(format: AppText.fetchinConversions.rawValue, currencyCode)
+                : String.init(format: AppText.fetchingConversions.rawValue, currencyCode)
         )
         
         AlamofireDataStore.shared.fecthCurrencyConversionRates(for: currencyCode) { (currencies) in
@@ -55,6 +56,16 @@ class CalculationVM {
             
             self.finishLoading(code: currencyCode, value: value, currencies: currencies, reload: reload)
         }
+    }
+    
+    func searchConversion(matching code: String? = "", reload: Bool = false) {
+        if let code = code, !code.isEmpty {
+            self.filteredConversions = self._conversions.filter { $0.code.lowercased().contains(code.lowercased()) }
+        } else {
+            self.filteredConversions = self._conversions
+        }
+        
+        self.status.value = .view(true)
     }
     
     private func finishLoading(code: String = "", value: Double = 0, currencies: Currencies, reload: Bool = false) {
@@ -68,12 +79,14 @@ class CalculationVM {
     }
     
     private func calculateConversions(value: Double) {
-        self.conversions = []
+        self._conversions = []
+        self.filteredConversions = []
         
         self.currencies
             .filter { $0.code != self.base && $0.code != "-" }
-            .forEach { self.conversions.append(Currency(code: $0.code, value: $0.value * value)) }
+            .forEach { self._conversions.append(Currency(code: $0.code, value: $0.value * value)) }
         
+        self.filteredConversions = self._conversions
         self.status.value = .view(true)
     }
     

@@ -17,8 +17,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <searchBar contentMode="redraw" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="qoD-oK-aNG">
+                                <rect key="frame" x="8" y="36" width="398" height="56"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TVy-Pb-IL5">
-                                <rect key="frame" x="16" y="60" width="382" height="160"/>
+                                <rect key="frame" x="16" y="96" width="382" height="160"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ch0-bz-eDs">
                                         <rect key="frame" x="16" y="16" width="350" height="128"/>
@@ -58,36 +62,39 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lUU-ib-rHh">
-                                <rect key="frame" x="16" y="244" width="382" height="1"/>
+                                <rect key="frame" x="16" y="280" width="382" height="1"/>
                                 <color key="backgroundColor" systemColor="systemGrayColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="Kdm-BY-juZ"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cYK-c0-8Mc">
-                                <rect key="frame" x="187" y="224.5" width="40" height="40"/>
+                                <rect key="frame" x="187" y="260.5" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="e0x-mG-cSz"/>
                                     <constraint firstAttribute="height" constant="40" id="xOQ-M6-Nao"/>
                                 </constraints>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="YTg-RN-rnf">
-                                <rect key="frame" x="0.0" y="265" width="414" height="548"/>
+                                <rect key="frame" x="0.0" y="301" width="414" height="512"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="T7K-yW-WZu"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="T7K-yW-WZu" firstAttribute="top" secondItem="qoD-oK-aNG" secondAttribute="top" constant="8" id="3RB-IX-YNJ"/>
+                            <constraint firstItem="TVy-Pb-IL5" firstAttribute="top" secondItem="qoD-oK-aNG" secondAttribute="bottom" constant="4" id="8cJ-eS-g9z"/>
                             <constraint firstItem="T7K-yW-WZu" firstAttribute="bottom" secondItem="YTg-RN-rnf" secondAttribute="bottom" id="G4x-YS-t9e"/>
                             <constraint firstItem="cYK-c0-8Mc" firstAttribute="centerX" secondItem="lUU-ib-rHh" secondAttribute="centerX" id="OMS-e3-AsE"/>
+                            <constraint firstItem="qoD-oK-aNG" firstAttribute="leading" secondItem="T7K-yW-WZu" secondAttribute="leading" constant="8" id="OzN-mL-mHa"/>
                             <constraint firstItem="YTg-RN-rnf" firstAttribute="leading" secondItem="T7K-yW-WZu" secondAttribute="leading" id="SZO-Q9-BUf"/>
+                            <constraint firstItem="qoD-oK-aNG" firstAttribute="trailing" secondItem="T7K-yW-WZu" secondAttribute="trailing" constant="-8" id="add-fr-ZOG"/>
                             <constraint firstItem="TVy-Pb-IL5" firstAttribute="leading" secondItem="T7K-yW-WZu" secondAttribute="leading" constant="16" id="bfV-Cu-n1B"/>
                             <constraint firstItem="lUU-ib-rHh" firstAttribute="top" secondItem="TVy-Pb-IL5" secondAttribute="bottom" constant="24" id="civ-qa-nK7"/>
                             <constraint firstItem="T7K-yW-WZu" firstAttribute="trailing" secondItem="lUU-ib-rHh" secondAttribute="trailing" constant="16" id="imR-kA-R7M"/>
                             <constraint firstItem="lUU-ib-rHh" firstAttribute="leading" secondItem="T7K-yW-WZu" secondAttribute="leading" constant="16" id="k9r-aT-cTB"/>
                             <constraint firstItem="YTg-RN-rnf" firstAttribute="top" secondItem="lUU-ib-rHh" secondAttribute="bottom" constant="20" id="kjN-fH-vun"/>
-                            <constraint firstItem="TVy-Pb-IL5" firstAttribute="top" secondItem="T7K-yW-WZu" secondAttribute="top" constant="16" id="lCh-L3-kh7"/>
                             <constraint firstItem="cYK-c0-8Mc" firstAttribute="centerY" secondItem="lUU-ib-rHh" secondAttribute="centerY" id="o9T-Aw-8M4"/>
                             <constraint firstItem="T7K-yW-WZu" firstAttribute="trailing" secondItem="YTg-RN-rnf" secondAttribute="trailing" id="pI3-KL-kX4"/>
                             <constraint firstItem="T7K-yW-WZu" firstAttribute="trailing" secondItem="TVy-Pb-IL5" secondAttribute="trailing" constant="16" id="rLX-AV-Ktu"/>
@@ -99,6 +106,7 @@
                         <outlet property="conversionsTableView" destination="YTg-RN-rnf" id="tEQ-XM-5le"/>
                         <outlet property="currencyTextField" destination="jaq-CP-v0Y" id="nUd-Bg-PTX"/>
                         <outlet property="inputTextField" destination="VlE-uz-6Kg" id="BaL-Qg-ddP"/>
+                        <outlet property="searchBar" destination="qoD-oK-aNG" id="H2c-Bn-Wuu"/>
                         <outlet property="toggleButton" destination="cYK-c0-8Mc" id="xOd-NY-aUU"/>
                         <outlet property="topView" destination="TVy-Pb-IL5" id="DwQ-7H-dIE"/>
                         <outlet property="topViewHeightConstraint" destination="RXN-A0-gwn" id="e8u-ik-zxe"/>

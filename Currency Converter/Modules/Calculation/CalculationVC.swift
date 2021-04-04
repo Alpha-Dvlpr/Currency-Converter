@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Bond
 
 class CalculationVC: BaseViewController {
 
@@ -16,11 +17,12 @@ class CalculationVC: BaseViewController {
     @IBOutlet weak var toggleButton: UIButton!
     @IBOutlet weak var conversionsTableView: UITableView!
     @IBOutlet weak var topViewHeightConstraint: NSLayoutConstraint?
-
-    private var expanded: Bool = true
+    @IBOutlet weak var searchBar: UISearchBar!
+    
     private var currencyPicker = CustomPicker()
     private var viewModel = CalculationVM()
     private var restorationId = "ConversionCell"
+    private var expanded = Observable<Bool>(true)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +31,6 @@ class CalculationVC: BaseViewController {
         self.setupTextFields()
         self.setupTableView()
         self.setupToggleButton()
-        self.updateTopViewHeightAndButton()
         self.setupEvents()
     }
     
@@ -56,6 +57,9 @@ class CalculationVC: BaseViewController {
         self.currencyTextField.inputAccessoryView = self.currencyPicker.toolbar
         self.currencyTextField.textAlignment = .center
         self.currencyTextField.tintColor = .clear
+        
+        self.searchBar.delegate = self
+        self.searchBar.searchTextField.clearButtonMode = .whileEditing
     }
     
     private func setupTableView() {
@@ -77,11 +81,18 @@ class CalculationVC: BaseViewController {
     private func setupEvents() {
         self.toggleButton.addTarget(self, action: #selector(self.toggleButtonTapped(_:)), for: .touchUpInside)
         self.calculateButton.addTarget(self, action: #selector(self.calculateButtonTapped(_:)), for: .touchUpInside)
+        self.view.addGestureRecognizer(
+            UITapGestureRecognizer(
+                target: self.view,
+                action: #selector(self.view.endEditing(_:))
+            )
+        )
+        
         self.viewModel.status.observeNext { (status) in
             switch status {
             case .view(let reload):
                 self.hideLoadingView()
-    
+        
                 if reload {
                     self.conversionsTableView.reloadData()
                 } else {
@@ -100,17 +111,18 @@ class CalculationVC: BaseViewController {
                 self.calculateButtonTapped(self.calculateButton)
             }
         }.dispose(in: bag)
-    }
-    
-    private func updateTopViewHeightAndButton() {
-        self.topViewHeightConstraint?.constant = self.expanded ? 100 : 0
-        self.topView.isHidden = !expanded
-        self.topView.layoutIfNeeded()
-        self.toggleButton.setTitle(self.expanded ? "-" : "+", for: .normal)
+        
+        self.expanded.observeNext { (expanded) in
+            self.topViewHeightConstraint?.constant = expanded ? 100 : 0
+            self.topView.isHidden = !expanded
+            self.topView.layoutIfNeeded()
+            self.toggleButton.setTitle(expanded ? "-" : "+", for: .normal)
+        }.dispose(in: bag)
     }
     
     private func checkInputs() -> [String: Double]? {
         guard let inputText = self.inputTextField.text else { return nil }
+        
         guard let currency = self.currencyTextField.text, !currency.isEmpty, currency != "-"
         else { return nil }
         
@@ -136,11 +148,13 @@ class CalculationVC: BaseViewController {
     }
 
     @objc private func toggleButtonTapped(_ sender: UIButton) {
-        self.expanded.toggle()
-        self.updateTopViewHeightAndButton()
+        self.expanded.value.toggle()
     }
     
     @objc private func calculateButtonTapped(_ sender: UIButton) {
+        self.searchBar.text = ""
+        self.view.endEditing(true)
+        
         if let value = self.checkInputs(), let first = value.first {
             self.viewModel.fetchData(for: first.key, and: first.value, reload: true)
         } else {
@@ -151,7 +165,7 @@ class CalculationVC: BaseViewController {
 
 extension CalculationVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.viewModel.conversions.count
+        return self.viewModel.filteredConversions.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -159,7 +173,7 @@ extension CalculationVC: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let currentConversion = self.viewModel.conversions[indexPath.row]
+        let currentConversion = self.viewModel.filteredConversions[indexPath.row]
         
         if let cell = tableView.dequeueReusableCell(
             withIdentifier: self.restorationId,
@@ -214,6 +228,21 @@ extension CalculationVC: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.currencyTextField.text = self.viewModel.currencies[row].code.uppercased()
+    }
+}
+
+extension CalculationVC: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        self.viewModel.searchConversion(matching: searchBar.text, reload: true)
+        self.searchBar.resignFirstResponder()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        self.viewModel.searchConversion(matching: searchBar.text)
+        
+        if searchText.isEmpty {
+            self.searchBar.resignFirstResponder()
+        }
     }
 }
 

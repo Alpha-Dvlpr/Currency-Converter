@@ -20,7 +20,7 @@ enum AppText {
     case cancelButton
     case reloadButton
     case fetchingCurrencies
-    case fetchinConversions
+    case fetchingConversions
     case errorFetching
     
     var rawValue: String {
@@ -41,7 +41,7 @@ enum AppText {
         case .cancelButton: return "Cancelar"
         case .reloadButton: return "Reintentar"
         case .fetchingCurrencies: return "Obteniendo divisas disponibles"
-        case .fetchinConversions: return "Obteniendo tasas de cambio para %@"
+        case .fetchingConversions: return "Obteniendo tasas de cambio para %@"
         case .errorFetching: return "Error al obtener las divisas o las tasas de cambio"
         }
     }
