@@ -33,7 +33,7 @@ enum AppText {
             } else { return "App Name" }
         case .appAuthor: return "Aarón Granado Amores."
         case .appDescription: return "Conversor de divisas realizado como prueba técnica para el proceso de selección de Indra."
-        case .inputPlaceholder: return "Introduca cantidad"
+        case .inputPlaceholder: return "Introduzca cantidad"
         case .calculateButton: return "Calcular"
         case .alertTitle: return "Info"
         case .alertMessage: return "La cantidad está vacía o la divisa no es válida"
