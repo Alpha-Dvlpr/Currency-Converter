@@ -40,6 +40,7 @@ class CalculationVC: BaseViewController {
         self.topView.layer.cornerRadius = 12
         self.topView.layer.borderWidth = 1
         self.topView.layer.borderColor = UIColor.systemGray.cgColor
+        self.calculateButton.setTitleColor(.systemBlue, for: .normal)
         self.calculateButton.setTitle(AppText.calculateButton.rawValue.uppercased(), for: .normal)
     }
 
