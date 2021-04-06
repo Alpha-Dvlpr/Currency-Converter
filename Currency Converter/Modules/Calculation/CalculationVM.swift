@@ -26,16 +26,18 @@ class CalculationVM {
     private var _conversions: [Currency] = []
     var filteredConversions: [Currency] = []
     
-    init() {
-        self.status.value = .loading(AppText.fetchingCurrencies.rawValue)
-        self.getFromRealm()
-    }
-    
     func getFromRealm() {
-        if let currencies = RealmCurrenciesDataStore.shared.getCurrencies(), currencies.rates.count != 0 {
-            self.finishLoading(currencies: currencies)
-        } else {
-            self.fetchData()
+        self.status.value = .loading(AppText.fetchingCurrencies.rawValue)
+        
+        let realmCurrencies = RealmCurrenciesDataStore.shared.getCurrencies()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            if let currencies = realmCurrencies, currencies.rates.count != 0 {
+                self.finishLoading(currencies: currencies)
+            } else {
+                self.status.value = .view(false)
+                self.fetchData()
+            }
         }
     }
     

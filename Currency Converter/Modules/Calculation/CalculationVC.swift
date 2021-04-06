@@ -20,20 +20,20 @@ class CalculationVC: BaseViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     
     private var currencyPicker = CustomPicker()
-    private var viewModel: CalculationVM!
+    private var viewModel = CalculationVM()
     private var restorationId = "ConversionCell"
     private var expanded = Observable<Bool>(true)
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.viewModel = CalculationVM()
-        
         self.setupTopView()
         self.setupTextFields()
         self.setupTableView()
         self.setupToggleButton()
         self.setupEvents()
+        
+        self.viewModel.getFromRealm()
     }
     
     private func setupTopView() {
