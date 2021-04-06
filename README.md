@@ -17,5 +17,3 @@ Sobre la app:
 - Se ha cambiado la API proporcionada originalmente por un error de la misma:
   - "You have not supplied an API Access Key. [Required format: access_key=YOUR_ACCESS_KEY]" 
   - Esta nueva API trae muchas más divisas que la original (motivo principal para añadir la barra de búsqueda mencionada anteriormente).
-- El indicador de carga inicial presenta un pequeño bug:
-  - A veces aparece pero sólo cuando se ejecuta la app desde XCode.
