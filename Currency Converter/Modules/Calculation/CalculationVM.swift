@@ -57,10 +57,9 @@ class CalculationVM {
     }
     
     func searchConversion(matching code: String? = "", reload: Bool = false) {
-        if let code = code, !code.isEmpty {
-            self.filteredConversions = self._conversions.filter { $0.code.lowercased().contains(code.lowercased()) }
-        } else {
-            self.filteredConversions = self._conversions
+        self.filteredConversions = self._conversions.filter {
+            guard let code = code, !code.isEmpty else { return true }
+            return $0.code.lowercased().contains(code.lowercased())
         }
         
         self.status.value = .view(true)
